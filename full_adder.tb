@@ -1,0 +1,22 @@
+`timescale 1ns/1ps
+module full_adder_tb_explicit;
+    reg  a_in, b_in, cin_in;
+    wire sum_out, cout_out;
+
+    full_adder dut(.a(a_in), .b(b_in), .cin(cin_in), .sum(sum_out), .cout(cout_out));
+
+    initial begin
+        $display(" time  A B CIN | SUM COUT (Full Adder)");
+        
+        a_in=0; b_in=0; cin_in=0; #5;
+        a_in=1; b_in=0; cin_in=0; #5;
+        a_in=0; b_in=1; cin_in=0; #5;
+        a_in=1; b_in=1; cin_in=0; #5;
+        a_in=0; b_in=0; cin_in=1; #5;
+        a_in=1; b_in=0; cin_in=1; #5;
+        a_in=0; b_in=1; cin_in=1; #5;
+        a_in=1; b_in=1; cin_in=1; #5;
+        
+        $stop;
+    end
+endmodule

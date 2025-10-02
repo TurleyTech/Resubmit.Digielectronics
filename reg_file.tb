@@ -1,0 +1,34 @@
+`timescale 1ns/1ps
+module reg_file_tb_new_vars;
+    reg        clk, we_enable; 
+    reg  [3:0] raddr_1, raddr_2, waddr_in;
+    reg  [7:0] wdata_in;
+    wire [7:0] rdata_1, rdata_2;
+
+    reg_file dut(
+        .clk(clk), .we(we_enable), 
+        .raddr1(raddr_1), .raddr2(raddr_2),
+        .waddr(waddr_in), .wdata(wdata_in),
+        .rdata1(rdata_1), .rdata2(rdata_2)
+    );
+
+    // clock (negative edge)
+    initial clk = 0;
+    always  #5 clk = ~clk;
+
+    initial begin
+        $display(" time  WE W_ADDR W_DATA | R_ADDR1 R_DATA1  R_ADDR2 R_DATA2 (RegFile)");
+
+        // Original sequence: write AA to R1
+        we_enable=1; waddr_in=4'h1; wdata_in=8'hAA; raddr_1=4'h1; raddr_2=4'h0; #12;
+
+        // disable write, read back
+        we_enable=0;                    raddr_1=4'h1; raddr_2=4'h0; #10;
+
+        // Original sequence: write 55 to R3
+        we_enable=1; waddr_in=4'h3; wdata_in=8'h55;             #12;
+        we_enable=0;                raddr_1=4'h1; raddr_2=4'h3; #10;
+
+        $stop;
+    end
+endmodule

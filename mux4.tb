@@ -1,0 +1,19 @@
+`timescale 1ns/1ps
+module mux4_tb_wrapper;
+    reg  data_a, data_b, data_c, data_d, s0, s1; 
+    wire output_data;
+
+    mux4 dut(.a(data_a), .b(data_b), .c(data_c), .d(data_d), .sel0(s0), .sel1(s1), .y(output_data));
+
+    initial begin
+        $display(" time   A B C D  S1 S0 | Y (Mux4 Test)");
+        data_a=0; data_b=1; data_c=0; data_d=1; 
+
+        s1=0; s0=0; #10;
+        s1=0; s0=1; #10;
+        s1=1; s0=0; #10;
+        s1=1; s0=1; #10;
+
+        $stop;
+    end
+endmodule
